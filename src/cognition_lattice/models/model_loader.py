@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Dynamic model loader with caching."""
 
 from functools import lru_cache

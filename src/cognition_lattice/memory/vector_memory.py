@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Simple vector store built on FAISS."""
 
 from typing import Any, Iterable

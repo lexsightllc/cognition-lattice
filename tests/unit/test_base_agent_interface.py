@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 import inspect
 from importlib import import_module
 from pathlib import Path

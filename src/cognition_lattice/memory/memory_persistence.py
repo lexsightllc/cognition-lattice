@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Utilities for persistence and TTL cleanup."""
 
 import time

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Run agents in subprocesses for isolation."""
 
 import asyncio

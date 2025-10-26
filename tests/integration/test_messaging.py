@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 import importlib
 
 from cognition_lattice import sios_messaging as messaging

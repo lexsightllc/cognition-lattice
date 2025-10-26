@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Simple JWT auth middleware for FastAPI."""
 
 from fastapi import Request, HTTPException

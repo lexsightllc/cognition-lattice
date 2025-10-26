@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Register and retrieve ML models."""
 
 from typing import Dict, Any

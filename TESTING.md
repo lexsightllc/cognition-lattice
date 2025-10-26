@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
 # Testing Guide
 
 The Cognition Lattice test suite is organized to ensure fast feedback while still validating complex runtime behaviors.

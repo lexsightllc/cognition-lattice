@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """
 Example echo agent that responds to messages.
 """

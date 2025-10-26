@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """OpenTelemetry tracing setup."""
 
 from opentelemetry import trace

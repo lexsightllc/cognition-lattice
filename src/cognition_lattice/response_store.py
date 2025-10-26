@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Store responses for async retrieval."""
 
 from typing import Dict

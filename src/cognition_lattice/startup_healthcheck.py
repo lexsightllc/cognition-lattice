@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Check dependencies before startup."""
 
 import socket

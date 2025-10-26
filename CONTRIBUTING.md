@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
 # Contributing to Cognition Lattice
 
 Thank you for your interest in contributing! This guide outlines the ground rules for participating in the project.
@@ -28,3 +29,8 @@ Use GitHub issues for bug reports or feature requests. Include reproduction step
 ## Security
 
 Email security disclosures to security@cognition-lattice.dev instead of filing a public issue.
+
+## Licensing Expectations
+
+By submitting a contribution, you agree that your work will be licensed under the [Mozilla Public License 2.0](LICENSE). We operate under inbound = outbound terms: contributions are accepted only if they may be distributed under MPL-2.0, and contributors retain their own copyright while granting the project the rights required by the license.
+

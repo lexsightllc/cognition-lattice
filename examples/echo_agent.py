@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Example echo agent using numpy and pandas."""
 import logging
 from typing import Optional

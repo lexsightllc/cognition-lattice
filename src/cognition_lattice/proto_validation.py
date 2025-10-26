@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Validate messages with Protocol Buffers."""
 
 from typing import Any

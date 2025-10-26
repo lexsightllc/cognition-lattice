@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MPL-2.0
 """Manage multiple agents working on tasks."""
 
 from typing import Dict, Any, List, Any as AnyType

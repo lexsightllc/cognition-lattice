@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 import pytest
 
 from cognition_lattice.agent_sandbox import run_agent_subprocess

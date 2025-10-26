@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Kafka broker implementation."""
 
 from typing import Dict, Any, Generator

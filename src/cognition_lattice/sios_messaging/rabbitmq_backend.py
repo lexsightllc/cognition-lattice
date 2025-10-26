@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """RabbitMQ broker implementation."""
 
 from typing import Dict, Any, Generator

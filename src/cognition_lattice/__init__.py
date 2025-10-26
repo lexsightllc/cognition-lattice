@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Cognition Lattice runtime package."""
 
 from .agent_core import AgentCore, AgentMesh, AgentContext

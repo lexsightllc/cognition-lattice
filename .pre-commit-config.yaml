@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.2.2
@@ -28,6 +29,12 @@ repos:
       - id: trailing-whitespace
   - repo: local
     hooks:
+      - id: ensure-spdx-headers
+        name: ensure SPDX headers
+        entry: python scripts/ensure_spdx_headers.py
+        language: system
+        types: [text]
+
       - id: commitlint
         name: commitlint
         entry: npx commitlint --edit

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
 # ADR 0001: Repository Standardization
 
 - **Status:** Accepted

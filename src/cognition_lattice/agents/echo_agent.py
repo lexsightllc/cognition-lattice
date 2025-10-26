@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 from typing import Dict, Any
 from ..base_agent import BaseAgent
 
