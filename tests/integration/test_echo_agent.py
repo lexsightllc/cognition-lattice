@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 from cognition_lattice.agents.echo_agent import EchoAgent
 
 

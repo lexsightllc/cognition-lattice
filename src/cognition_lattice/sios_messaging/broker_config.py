@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Central configuration for broker clients."""
 
 import os

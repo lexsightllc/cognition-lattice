@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 from fastapi.testclient import TestClient
 
 from cognition_lattice import intent_gateway

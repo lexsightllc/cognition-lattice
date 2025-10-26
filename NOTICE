@@ -1,0 +1,17 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+# Cognition Lattice Notices
+
+Cognition Lattice © 2025 Augusto 'Guto' Ochoa Ughini
+
+This project is licensed under the Mozilla Public License 2.0 (see LICENSE).
+
+## Third-Party Components
+
+The Cognition Lattice runtime depends on a variety of third-party libraries listed in
+`requirements*.txt`, `pyproject.toml`, and other manifest files. Each dependency remains
+under its original license, and any notices required by those licenses must accompany
+redistributions of this project. When distributing binary or source archives, include this
+NOTICE file alongside the LICENSE file.
+
+At the time of this change, no vendored or copied third-party source files requiring
+additional license text beyond their upstream notices are present in the repository.

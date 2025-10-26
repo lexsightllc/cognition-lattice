@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 name: CI
 
 on:
@@ -47,3 +48,34 @@ jobs:
         with:
           name: sbom
           path: sbom/cognition-lattice-sbom.json
+
+  license_compliance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run ScanCode license scan
+        uses: nexB/scancode-toolkit-action@v32.0.1
+        with:
+          scancode-options: >-
+            --format json-pp --license --summary --classify
+            --copyright --strip-root
+            --output-file scancode-report.json .
+
+      - name: Upload ScanCode report
+        uses: actions/upload-artifact@v3
+        with:
+          name: scancode-report
+          path: scancode-report.json
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install REUSE tool
+        run: pip install reuse
+
+      - name: Verify SPDX headers
+        run: reuse lint

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Deployment helper commands."""
 
 import argparse

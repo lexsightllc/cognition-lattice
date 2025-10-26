@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """HTTP utilities for agents."""
 
 from typing import Any, Dict

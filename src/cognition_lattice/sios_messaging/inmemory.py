@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 from typing import Dict, Any, Generator
 from queue import Queue, Empty
 from .broker import BrokerClient

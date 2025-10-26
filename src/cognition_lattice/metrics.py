@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 import os
 
 from prometheus_client import Counter, Histogram, start_http_server

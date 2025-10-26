@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 from cognition_lattice.multi_agent_harmonizer import MultiAgentHarmonizer
 from cognition_lattice.base_agent import BaseAgent
 

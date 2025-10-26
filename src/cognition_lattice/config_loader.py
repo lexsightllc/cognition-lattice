@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Load and validate environment configuration."""
 
 import os

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 [build-system]
 requires = ["setuptools>=67", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -8,6 +9,9 @@ version = "0.1.0"
 description = "Dynamic agent orchestration runtime"
 readme = "README.md"
 license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)"
+]
 authors = [{ name = "Cognition Lattice Contributors" }]
 requires-python = ">=3.11"
 dependencies = [

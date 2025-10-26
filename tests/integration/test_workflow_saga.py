@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 import yaml
 from pathlib import Path
 

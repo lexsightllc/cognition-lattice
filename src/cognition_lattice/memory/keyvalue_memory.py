@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Simple key-value memory using SQLite."""
 
 import sqlite3

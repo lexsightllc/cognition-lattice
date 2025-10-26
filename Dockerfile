@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 FROM python:3.11-slim
 
 ENV PYTHONUNBUFFERED=1 \

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
 # Cognition Lattice
 
 Cognition Lattice is a modular agent orchestration platform that fuses intent ingestion, validation, execution, and observability into a single cohesive runtime. Agents are dynamically discovered, validated against strict schemas, and coordinated through resilient messaging primitives so that new behaviors can be added safely without redeploying the core.
@@ -111,6 +112,16 @@ Environment variables are documented in `.env.example`; never commit secrets. Co
 ## Continuous Integration
 
 GitHub Actions (`.github/workflows/ci.yml`) runs `make check`, caches Python dependencies, publishes coverage, and attaches SBOM artifacts. Conventional Commit messages are enforced via pre-commit hooks and CODEOWNERS gate sensitive paths.
+## License
+
+This project is licensed under the [Mozilla Public License 2.0](LICENSE). Any modifications made to MPL-covered files must be shared under the same license, while larger works that merely combine Cognition Lattice with other proprietary components may remain under their own terms.
+
+For distribution packages, include the accompanying [NOTICE](NOTICE) file so that third-party attributions travel with the code.
+
+## Credits
+
+Cognition Lattice is maintained by Augusto 'Guto' Ochoa Ughini and the broader contributor community. Please review NOTICE for third-party acknowledgements and retain upstream attributions when redistributing.
+
 
 ---
 

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
 # Configuration Directory
 
 This folder contains declarative assets that describe Cognition Lattice deployments.

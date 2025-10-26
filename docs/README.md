@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MPL-2.0 -->
 # Cognition Lattice Documentation
 
 The documentation set captures architecture, operational guides, and decision history.

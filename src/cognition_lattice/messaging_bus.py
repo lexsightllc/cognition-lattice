@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """
 Messaging bus implementation for inter-agent communication.
 """

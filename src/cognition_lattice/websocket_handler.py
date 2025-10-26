@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 """Manage WebSocket connections."""
 
 from typing import Dict
