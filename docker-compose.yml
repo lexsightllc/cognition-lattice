@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  agent_core:
+    build: .
+    command: python -m cognition_lattice.agent_core
+    environment:
+      - MESSAGE_BROKER=${MESSAGE_BROKER:-redis}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - METRICS_PORT=${METRICS_PORT:-9000}
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8001"
+  gateway:
+    build: .
+    command: uvicorn cognition_lattice.intent_gateway:app --host 0.0.0.0 --port 8000
+    environment:
+      - MESSAGE_BROKER=${MESSAGE_BROKER:-redis}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"

@@ -1,10 +1,12 @@
 """Example echo agent using numpy and pandas."""
 import logging
 from typing import Optional
+
 import numpy as np
 import pandas as pd
-from agent_core import AgentContext
-from messaging_bus import Message, MessageType
+
+from cognition_lattice.agent_core import AgentContext
+from cognition_lattice.messaging_bus import Message, MessageType
 
 logger = logging.getLogger(__name__)
 

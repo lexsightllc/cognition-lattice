@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=67", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cognition-lattice"
+version = "0.1.0"
+description = "Dynamic agent orchestration runtime"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Cognition Lattice Contributors" }]
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.95.0",
+    "uvicorn>=0.21.0",
+    "redis>=4.5.0",
+    "jsonschema>=4.0.0",
+    "prometheus-client>=0.16.0",
+    "pydantic>=1.10.0",
+    "watchdog>=3.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+src_paths = ["src", "tests", "examples"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests", "examples"]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "B",
+    "UP",
+    "ARG",
+    "ASYNC",
+    "BLE",
+    "DTZ",
+    "ICN",
+    "SIM",
+]
+ignore = ["E203"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+mypy_path = ["src"]
+show_error_codes = true
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["cognition_lattice"]

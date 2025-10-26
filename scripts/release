@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VERSION=${VERSION:-}
+if [[ -z "${VERSION}" ]]; then
+  echo "VERSION environment variable is required" >&2
+  exit 1
+fi
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "${ROOT_DIR}"
+
+./scripts/check
+./scripts/build
+./scripts/package
+./scripts/sbom
+
+if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+  echo "Tag v${VERSION} already exists" >&2
+  exit 1
+fi
+
+git tag -a "v${VERSION}" -m "Release ${VERSION}"
+echo "Created tag v${VERSION}. Push with: git push --follow-tags"

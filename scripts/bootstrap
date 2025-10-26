@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VENV_DIR="${ROOT_DIR}/.venv"
+PYTHON_BIN="${PYTHON:-python3}"
+
+if [[ ! -d "${VENV_DIR}" ]]; then
+  echo "[bootstrap] creating virtual environment at ${VENV_DIR}" >&2
+  "${PYTHON_BIN}" -m venv "${VENV_DIR}"
+fi
+
+# shellcheck disable=SC1091
+source "${VENV_DIR}/bin/activate"
+
+python -m pip install --upgrade pip
+python -m pip install -r "${ROOT_DIR}/requirements.txt"
+python -m pip install pre-commit
+
+if command -v npm >/dev/null 2>&1; then
+  (cd "${ROOT_DIR}" && npm install)
+else
+  echo "npm not found; skipping commitlint installation" >&2
+fi
+
+pre-commit install
+pre-commit install --hook-type commit-msg
+
+cat <<MSG
+Bootstrap complete.
+Activate the environment with: source ${VENV_DIR}/bin/activate
+Run scripts/check before pushing code.
+MSG

@@ -1,120 +1,116 @@
-# Symbiotic Intelligence Operating System (S.I.O.S.)
+# Cognition Lattice
 
-This repository contains a prototype implementation of the S.I.O.S. architecture, now enhanced for dynamic module loading, scalable messaging, observability, schema validation, and containerized deployment. It provides a framework for running autonomous coding agents on local or distributed infrastructure, integrating with remote planners like OpenAI Codex.
+Cognition Lattice is a modular agent orchestration platform that fuses intent ingestion, validation, execution, and observability into a single cohesive runtime. Agents are dynamically discovered, validated against strict schemas, and coordinated through resilient messaging primitives so that new behaviors can be added safely without redeploying the core.
 
-## Features and Architecture
+## Platform Capabilities
 
-* **Dynamic Agent Discovery & Hot-Reload**: Agents placed in `cognition_lattice/agents` are discovered and reloaded at runtime using `watchdog`, eliminating the need to restart the core for updates or security patches.
-* **Message-Driven Processing**: Intents are no longer polled from disk but enqueued in a broker (e.g., RabbitMQ, Redis Streams, or AWS SQS). The `AgentCore` functions as a consumer, supporting parallel processing and guaranteed once-only delivery with dead-letter queue support.
-* **Observability & Metrics**: Prometheus-compatible metrics (intent counts, latencies, error rates) are exposed via an HTTP endpoint. Structured logs are shipped to Elasticsearch/Kibana or Grafana Loki, providing real-time dashboards and alerting.
-* **Schema Validation**: Intent payloads adhere to a strict contract defined in JSON Schema or Protocol Buffers. Validation occurs at ingestion, returning structured errors for malformed or version-incompatible messages.
-* **Automated Testing**: Comprehensive suite of unit tests for each `BaseAgent` implementation and integration tests for the end-to-end flow, ensuring regression-free evolution.
-* **Containerized Deployment**: A Dockerfile and `docker-compose.yaml` orchestrate S.I.O.S. services (message broker, metrics/logs infrastructure, AgentCore), enabling reproducible environments and seamless scaling via Kubernetes or Docker Swarm.
-* **API Gateway for Intents**: A lightweight FastAPI service (`intent_gateway.py`) exposes HTTP/WebSocket endpoints for creating and managing intents, adding authentication, tracing metadata, and fine-grained authorization.
-* **Multi-Agent Orchestration**: Advanced harmonizer supports SAGA and choreography patterns, allowing agents to coordinate stateful workflows with rollback capabilities and compensating transactions.
-* **Memory and Model Registry**: Pluggable memory backends and a dynamic model registry enable agents to share state and load ML models on demand.
+- **Dynamic Orchestration** – `AgentCore` hot-reloads agents from the package and fans work out through async meshes when manifests describe cooperative workflows.
+- **Message-Driven Execution** – Brokers (Redis, Kafka, RabbitMQ, or in-memory) provide reliable queues for intents, responses, and heartbeats.
+- **Observability & Safety** – Prometheus metrics, structured logging, and schema validation protect against regressions while security sandboxing keeps experimental code contained.
+- **Extensible Memory & Models** – Pluggable memory stores and model registries allow agents to share context and load ML assets on demand.
+
+## Repository Layout
+
+```
+├── CHANGELOG.md
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── Dockerfile
+├── LICENSE
+├── Makefile
+├── README.md
+├── assets/
+├── ci/
+├── configs/
+│   ├── manifests/
+│   └── schemas/
+├── data/
+├── docs/
+│   ├── adr/
+│   ├── api/
+│   └── vision.md
+├── examples/
+├── infra/
+│   └── migrations/
+├── project.yaml
+├── requirements.in
+├── requirements.txt
+├── scripts/
+│   ├── *.sh
+│   └── windows/*.ps1
+├── sbom/
+├── src/
+│   └── cognition_lattice/
+└── tests/
+    ├── unit/
+    ├── integration/
+    └── e2e/
+```
+
+The Python package lives under `src/cognition_lattice`. Configuration files move to `configs/`, long-lived assets sit in `assets/` or `data/`, and infrastructure experiments belong in `infra/`.
+
+## Developer Tasks
+
+| Task | Command | Description |
+| --- | --- | --- |
+| Bootstrap toolchain | `scripts/bootstrap` | Create a virtualenv, install dependencies, and set up Git hooks. |
+| Run dev stack | `scripts/dev [--build]` | Launch Docker services (agent core, gateway, Redis) with Docker Compose. |
+| Lint | `scripts/lint [--fix]` | Execute Ruff, Black, and isort (optionally auto-fix with `--fix`). |
+| Format | `scripts/fmt [--check]` | Apply or check canonical formatting across Python sources and tests. |
+| Type check | `scripts/typecheck` | Run mypy with `src/` on the Python path. |
+| Tests | `scripts/test` | Execute unit + integration suites. |
+| End-to-end | `scripts/e2e` | Run user-behavior regression scenarios. |
+| Coverage | `scripts/coverage` | Collect coverage with term summary and XML report. |
+| Build artifacts | `scripts/build` | Produce Python wheels and source distribution via `python -m build`. |
+| Package container | `scripts/package` | Build a Docker image (`IMAGE_NAME`/`IMAGE_TAG` configurable). |
+| Security scan | `scripts/security-scan` | Run Bandit SAST and `pip-audit` for dependency CVEs. |
+| SBOM | `scripts/sbom` | Emit a CycloneDX SBOM to `sbom/cognition-lattice-sbom.json`. |
+| Docs | `scripts/gen-docs` | Generate API reference docs into `docs/api/` using pdoc. |
+| Update deps | `scripts/update-deps` | Refresh pinned requirements with `pip-compile` (requires `pip-tools`). |
+| Release | `scripts/release` | Run checks, build artifacts, generate SBOM, and tag `v$VERSION`. |
+| Migrate | `scripts/migrate` | Run database migrations if an Alembic config is present. |
+| Clean | `scripts/clean` | Remove build caches and Python bytecode. |
+| Quality gate | `scripts/check` | Aggregate formatting, lint, type, test, coverage, and security scans. |
+
+PowerShell mirrors for the entire toolbelt live under `scripts/windows/` so Windows developers have parity with the Bash shims.
 
 ## Getting Started
 
-### Prerequisites
+```bash
+make bootstrap
+source .venv/bin/activate
+make check  # run the full quality gate
+```
 
-* macOS or Linux with Docker and Docker Compose installed
-* Homebrew (macOS) or equivalent package manager
-* (Optional) Python 3.11 for local venv development
+> **Note:** `scripts/bootstrap` installs commitlint via `npm` when available. Install Node.js (see `.tool-versions`) to enable commit message linting locally.
 
-### Local Development with Virtualenv
+To run the local stack:
 
 ```bash
-# Bootstrap and activate environment
-./bootstrap_env.sh
-
-# Install additional development dependencies (if not containerized)
-pip install pytest pytest-cov watchdog
-
-# Run unit tests
-pytest --cov=cognition_lattice/agents
-
-# Start AgentCore worker
-python agent_core.py
-
-# In a separate terminal run the intent gateway
-python intent_gateway.py
+make dev ARGS="--build"
 ```
 
-### Running with Docker Compose
+## Testing Strategy
 
-```bash
-# Build and start all services
-docker-compose up --build -d
+- **Unit tests** (`tests/unit`) mirror package modules and use deterministic fixtures located in `tests/fixtures`.
+- **Integration tests** (`tests/integration`) exercise messaging, metrics, and multi-agent workflows against test brokers.
+- **E2E scenarios** (`tests/e2e`) simulate end-user behaviors with Given/When/Then annotations and real broker loops.
 
-# View logs
-docker-compose logs -f agent_core gateway
+Each suite can be invoked individually via the scripts or `make` targets documented above.
 
-# Scale AgentCore workers
-docker-compose up --scale agent_core=3 -d
-```
+## Configuration & Environment
 
-Minimal `docker-compose.yaml` example:
+Environment variables are documented in `.env.example`; never commit secrets. Configuration manifests and schemas live under `configs/` and are referenced by runtime modules through deterministic absolute paths. SBOMs, CI metadata, and CODEOWNERS enforce supply-chain safety.
 
-```yaml
-version: '3'
-services:
-  agent_core:
-    build: .
-    environment:
-      - MESSAGE_BROKER=redis
-  gateway:
-    build: .
-    environment:
-      - MESSAGE_BROKER=redis
-  redis:
-    image: redis:7-alpine
-```
+## Documentation & Decisions
 
-### Connecting via API Gateway
+- Architectural decisions are recorded in `docs/adr/` (see ADR-0001 for the structure standardization).
+- The long-term vision statement is captured in `docs/vision.md`.
+- API documentation can be regenerated with `scripts/gen-docs`.
 
-```bash
-# Submit a new intent via HTTP
-token=<YOUR_API_TOKEN>
-curl -X POST http://localhost:8000/intents \
-  -H "Authorization: Bearer $token" \
-  -H "Content-Type: application/json" \
-  -d '{"intent": "echo", "args": "Hello World"}'
-```
+## Continuous Integration
 
-## Project Structure
-
-```
-├── agent_core.py               # Core consumer for intent messages
-├── intent_gateway.py           # FastAPI gateway for HTTP/WebSocket intents
-├── multi_agent_harmonizer.py   # Orchestrates multi-agent workflows
-├── retrovector_bridge.py       # Communication router (pluggable channels)
-├── agentfeed_twitter.py        # Example status feed integration via Tweepy
-├── cognition_lattice/          # Core agents framework
-│   ├── agents/                 # Agent modules (hot-reloaded)
-│   ├── base_agent.py           # Abstract base class for agents
-│   ├── intents/                # (Deprecated polling; for reference)
-│   └── responses/              # (Deprecated polling; for reference)
-├── sios_messaging/            # Transport abstraction layer
-├── metrics.py                  # Prometheus metrics helpers
-├── validation.py               # JSON Schema validation utilities
-├── schemas/                    # Intent schema definitions
-│   └── echo.json               # Example schema for EchoAgent
-├── docker-compose.yaml         # Broker, metrics, logs, and AgentCore services
-├── Dockerfile                  # Builds AgentCore and dependencies
-├── bootstrap_env.sh            # Local Python venv bootstrap script
-└── tests/                      # Unit and integration tests
-```
-
-## Extensibility
-
-* **Adding Agents**: Create or update modules under `cognition_lattice/agents`, define `intent_types`, and implement `execute()`. The core will auto-discover and reload changes.
-* **Schema Definitions**: Extend `schemas/` with JSON Schema or `.proto` files and register in ingestion layer for validation.
-* **Metrics & Logging**: Modify the `metrics/` and `logging/` configurations to integrate with your monitoring stack.
-
-## Contributing
-
-Contributions are welcome via GitHub pull requests. Ensure that new features include tests and documentation updates.
+GitHub Actions (`.github/workflows/ci.yml`) runs `make check`, caches Python dependencies, publishes coverage, and attaches SBOM artifacts. Conventional Commit messages are enforced via pre-commit hooks and CODEOWNERS gate sensitive paths.
 
 ---
 
