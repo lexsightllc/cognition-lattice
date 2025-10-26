@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+IMAGE_NAME=${IMAGE_NAME:-cognition-lattice}
+IMAGE_TAG=${IMAGE_TAG:-latest}
+
+if ! command -v docker >/dev/null 2>&1; then
+  echo "docker is required to build the container image" >&2
+  exit 1
+fi
+
+docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" "$@" .

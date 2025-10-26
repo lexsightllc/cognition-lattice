@@ -1,48 +1,41 @@
-# Production-Grade Test Suite
+# Testing Guide
 
-This project includes a growing collection of unit and integration tests. The
-notes below outline how the test suite should evolve toward production
-readiness and how to validate the system in a real deployment.
+The Cognition Lattice test suite is organized to ensure fast feedback while still validating complex runtime behaviors.
 
 ## Test Layers
 
-1. **Agent Tests** - cover agent execution, initialization failures and
-   sandbox enforcement.  New tests such as `test_timeout_enforcement.py` ensure
-   that runaway agents are terminated after the configured timeout.
-2. **Orchestration** - use workflow manifests from `tests/fixtures` to verify
-   multi-agent SAGA rollbacks and concurrent workflow execution.
-3. **Messaging/Broker** - simulate broker disconnects and dead-letter routing to
-   guarantee message durability.
-4. **Security** - sandboxed agents attempt restricted operations which must be
-   denied and logged.
-5. **Gateway** - HTTP and WebSocket endpoints deliver intent results reliably
-   even when clients reconnect.
+1. **Unit** (`tests/unit/`) – Validate individual modules, agent contracts, sandbox enforcement, and resource management logic with deterministic fixtures.
+2. **Integration** (`tests/integration/`) – Exercise broker recovery, gateway APIs, metrics exposure, and workflow harmonizers against in-memory transports.
+3. **End-to-End** (`tests/e2e/`) – Simulate user-centric journeys (Given/When/Then) that traverse gateways, brokers, and agents end-to-end.
 
-## Running Tests
+Fixtures for orchestrated scenarios live under `tests/fixtures/` and should be shared instead of re-creating ad hoc data.
 
-Install dependencies (optionally using a virtual environment):
+## Running the Suite
+
+Install dependencies and bootstrap tooling:
 
 ```bash
-pip install -r requirements.txt
+scripts/bootstrap
+source .venv/bin/activate
 ```
 
-Run the suite with pytest:
+Run individual suites:
 
 ```bash
-pytest -q
+scripts/test          # unit + integration
+scripts/e2e           # end-to-end
+scripts/coverage      # coverage with XML + terminal report
 ```
 
-Coverage reports can be generated with:
+CI mirrors these commands via `scripts/check`, so keeping the script outputs green guarantees a clean merge.
 
-```bash
-pytest --cov
-```
+## Production Validation
 
-## Real‑World Validation
+For staging or load testing:
 
-A production‑like environment can be orchestrated with Docker Compose or
-Kubernetes. Deploy the API gateway, AgentCore and broker services then submit a
-load of intents using an async client (e.g. k6 or Locust). Introduce failures
-such as broker restarts or agent file removal to observe recovery behaviour.
-Collect Prometheus metrics and logs during the run to verify stability over
-extended periods.
+1. Launch the stack with `scripts/dev --build` (or the equivalent `docker compose` command).
+2. Drive traffic using k6, Locust, or Playwright against the FastAPI gateway while generating intents.
+3. Inject chaos (restart broker, delete an agent module) and verify that AgentCore hot-reloads and resumes processing.
+4. Capture Prometheus metrics (`/metrics` endpoint) and structured logs to confirm SLOs.
+
+Document any additional scenarios in `docs/adr/` or `tests/fixtures/` so they become repeatable.

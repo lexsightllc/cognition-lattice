@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "${ROOT_DIR}"
+
+if [[ -f "alembic.ini" ]]; then
+  alembic upgrade head
+else
+  echo "No database migrations configured. Place migration tooling under infra/migrations/." >&2
+fi

@@ -1,0 +1,32 @@
+name: cognition-lattice
+language: python
+package_manager: pip
+runtime:
+  python: "3.11.6"
+  node: "20.10.0"
+dependencies:
+  - requirements.txt
+entrypoints:
+  agent_core: python -m cognition_lattice.agent_core
+  gateway: uvicorn cognition_lattice.intent_gateway:app --host 0.0.0.0 --port 8000
+ports:
+  - name: gateway
+    number: 8000
+    protocol: http
+  - name: metrics
+    number: 9000
+    protocol: http
+service_type: microservice
+owners:
+  - platform: github
+    team: cognition-lattice/maintainers
+quality_gates:
+  lint: scripts/lint
+  typecheck: scripts/typecheck
+  test: scripts/test
+  e2e: scripts/e2e
+  coverage: scripts/coverage
+ci:
+  workflow: .github/workflows/ci.yml
+notes:
+  - Examples live under `examples/` outside the package to keep tutorials lightweight; document usage in README.

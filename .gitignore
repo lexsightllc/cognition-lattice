@@ -1,6 +1,45 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.build/
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+.env/
+
+# Tooling
 .pytest_cache/
-
-ledger.db
-
+.mypy_cache/
+ruff_cache/
+.coverage
+htmlcov/
+.pyre/
 node_modules/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data and artifacts
+data/intents/*.json
+artifacts/
+docs/api/
+
+# Node / Playwright assets
+playwright-report/
+
+# Docker
+*.log
+
+# macOS
+.DS_Store
